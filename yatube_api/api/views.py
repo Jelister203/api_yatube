@@ -1,21 +1,9 @@
 from django.shortcuts import get_object_or_404
-
-from rest_framework import permissions
-
-from rest_framework import viewsets
-
 from posts.models import Group, Post
-from .serializers import (
-    CommentSerializer,
-    GroupSerializer,
-    PostSerializer
-)
+from rest_framework import permissions, viewsets
 
-
-class IsAuthorOrReadOnly(permissions.BasePermission):
-    def has_object_permission(self, request, view, obj):
-        return (request.method in permissions.SAFE_METHODS
-                or obj.author == request.user)
+from .exceptions import *
+from .serializers import CommentSerializer, GroupSerializer, PostSerializer
 
 
 class GroupViewSet(viewsets.ReadOnlyModelViewSet):
